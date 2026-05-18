@@ -1,0 +1,2291 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Non Solo Pilates · Pilates Reformer en Parque Patricios, CABA</title>
+  <meta name="description" content="Estudio de Pilates Reformer en Parque Patricios, CABA. Clases individuales, dúo y grupales. Reservá tu turno por WhatsApp." />
+  <meta property="og:title" content="Non Solo Pilates · Pilates Reformer Parque Patricios" />
+  <meta property="og:description" content="Clases individuales, dúo y grupales de Pilates Reformer en Parque Patricios, CABA." />
+  <meta property="og:type" content="website" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      /* original dark + gold palette */
+      --cream:     #0d0d0d;          /* primary bg (black) */
+      --cream-2:   #141414;          /* alt bg */
+      --sage:      #161616;           /* card variant 1 */
+      --sage-soft: #1a1a1a;           /* card variant 2 */
+      --cocoa:     #f5f0eb;           /* inverse light (used for CTA + dark cards) */
+      --cocoa-2:   #e8c99a;
+      --clay:      #c9a96e;           /* gold accent */
+      --blush:     #1c1c1c;           /* warm dark card */
+      --gold-2:    #e8c99a;
+
+      --bg:        var(--cream);
+      --bg-2:      var(--cream-2);
+      --ink:       var(--cocoa);
+      --ink-soft:  #b8b0a3;
+      --muted:     #8a8175;
+      --line:      #2a2a2a;
+      --line-soft: #232323;
+      --accent:    var(--clay);
+
+      --serif: 'Cormorant Garamond', Georgia, serif;
+      --sans:  'DM Sans', system-ui, -apple-system, sans-serif;
+    }
+
+    html { scroll-behavior: smooth; }
+    ::selection { background: var(--ink); color: var(--bg); }
+
+    /* scroll progress bar */
+    .scroll-progress {
+      position: fixed;
+      top: 0; left: 0;
+      height: 2px;
+      background: var(--clay);
+      width: 0%;
+      z-index: 101;
+      transition: width 0.1s linear;
+    }
+
+    /* custom soft cursor halo (desktop) */
+    .cursor-halo {
+      position: fixed;
+      top: 0; left: 0;
+      width: 320px; height: 320px;
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 1;
+      background: radial-gradient(circle, rgba(201,169,110,0.10) 0%, transparent 65%);
+      transform: translate(-50%, -50%);
+      mix-blend-mode: screen;
+      transition: opacity 0.4s ease;
+      opacity: 0;
+    }
+    @media (hover: hover) and (pointer: fine) {
+      .cursor-halo { opacity: 1; }
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--ink);
+      font-family: var(--sans);
+      font-weight: 400;
+      font-size: 16px;
+      line-height: 1.7;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── Animations ── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 1.1s cubic-bezier(.22,.61,.36,1), transform 1.1s cubic-bezier(.22,.61,.36,1);
+    }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+    .delay-1 { transition-delay: 0.08s; }
+    .delay-2 { transition-delay: 0.16s; }
+    .delay-3 { transition-delay: 0.24s; }
+    .delay-4 { transition-delay: 0.32s; }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(18px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* word-by-word reveal */
+    .word-reveal {
+      display: inline-block;
+      overflow: hidden;
+      vertical-align: top;
+      padding: 0.1em 0.08em 0.15em 0;
+    }
+    .word-reveal.done { overflow: visible; }
+    .word-reveal .w {
+      display: inline-block;
+      transform: translateY(110%);
+      animation: wordUp 1.1s cubic-bezier(.22,.61,.36,1) forwards;
+    }
+    @keyframes wordUp {
+      to { transform: translateY(0); }
+    }
+
+    /* gentle float */
+    @keyframes float {
+      0%, 100% { transform: translate(0, 0); }
+      50%      { transform: translate(0, -14px); }
+    }
+    @keyframes drift {
+      0%   { transform: translate(0, 0) rotate(0deg); }
+      50%  { transform: translate(20px, -20px) rotate(8deg); }
+      100% { transform: translate(0, 0) rotate(0deg); }
+    }
+    @keyframes spinSlow {
+      from { transform: rotate(0deg); }
+      to   { transform: rotate(360deg); }
+    }
+    @keyframes breathe {
+      0%, 100% { transform: scale(1); opacity: 0.55; }
+      50%      { transform: scale(1.08); opacity: 0.75; }
+    }
+
+    /* ── Typography primitives ── */
+    .eyebrow {
+      font-family: var(--sans);
+      font-size: 0.72rem;
+      font-weight: 500;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: var(--ink-soft);
+    }
+    .display {
+      font-family: var(--serif);
+      font-weight: 300;
+      line-height: 1;
+      letter-spacing: -0.02em;
+      color: var(--ink);
+    }
+    .display em { font-style: italic; font-weight: 300; }
+    h2.section-title {
+      font-family: var(--serif);
+      font-weight: 300;
+      font-size: clamp(2.4rem, 4.6vw, 3.6rem);
+      line-height: 1.05;
+      letter-spacing: -0.018em;
+      color: var(--ink);
+    }
+    h2.section-title em { font-style: italic; font-weight: 300; }
+
+    /* ── Nav ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.6rem 2.5rem;
+      transition: background 0.4s ease, backdrop-filter 0.4s ease, border-color 0.4s ease, padding 0.3s ease;
+      border-bottom: 1px solid transparent;
+    }
+    nav.scrolled {
+      background: rgba(13,13,13,0.85);
+      backdrop-filter: blur(14px) saturate(1.1);
+      border-bottom: 1px solid var(--line);
+      padding: 1.1rem 2.5rem;
+    }
+    .nav-logo {
+      font-family: var(--serif);
+      font-weight: 400;
+      font-size: 1.35rem;
+      letter-spacing: -0.005em;
+      color: var(--ink);
+      text-decoration: none;
+    }
+    .nav-logo em { font-style: italic; font-weight: 300; color: var(--clay); }
+    .nav-links { display: flex; gap: 2.4rem; list-style: none; align-items: center; }
+    .nav-links a {
+      color: var(--ink);
+      text-decoration: none;
+      font-size: 0.86rem;
+      letter-spacing: 0.02em;
+      opacity: 0.75;
+      transition: opacity 0.2s;
+    }
+    .nav-links a:hover { opacity: 1; }
+
+    .nav-cta {
+      background: var(--clay);
+      color: var(--cream) !important;
+      padding: 0.6rem 1.3rem;
+      border-radius: 999px;
+      opacity: 1 !important;
+      font-size: 0.84rem !important;
+      transition: background 0.25s, transform 0.25s !important;
+    }
+    .nav-cta:hover { transform: translateY(-1px); background: var(--gold-2); }
+
+    /* ── Hero ── */
+    #hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 9rem 2rem 7rem;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero-shapes {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+    }
+    .hero-shape {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(20px);
+      will-change: transform;
+    }
+    .hero-shape.s1 {
+      width: 460px; height: 460px;
+      top: -120px; left: -120px;
+      background: rgba(201,169,110,0.10);
+      animation: drift 14s ease-in-out infinite;
+    }
+    .hero-shape.s2 {
+      width: 360px; height: 360px;
+      bottom: -80px; right: -60px;
+      background: rgba(232,201,154,0.08);
+      animation: drift 18s ease-in-out infinite reverse;
+    }
+    .hero-shape.s3 {
+      width: 220px; height: 220px;
+      top: 30%; right: 18%;
+      background: rgba(245,240,235,0.04);
+      animation: float 9s ease-in-out infinite;
+    }
+    .hero-shape.s4 {
+      width: 160px; height: 160px;
+      bottom: 22%; left: 14%;
+      background: rgba(201,169,110,0.14);
+      animation: float 11s ease-in-out infinite reverse;
+    }
+
+    #hero > *:not(.rotating-badge):not(.hero-shapes) { position: relative; z-index: 1; }
+
+    .hero-eyebrow {
+      margin-bottom: 2.5rem;
+      animation: fadeUp 1s 0.2s both;
+    }
+
+    .hero-title {
+      font-family: var(--serif);
+      font-weight: 300;
+      font-size: clamp(3.8rem, 11vw, 9rem);
+      line-height: 0.95;
+      letter-spacing: -0.025em;
+      margin-bottom: 2rem;
+      animation: fadeUp 1.1s 0.35s both;
+    }
+    .hero-title em { font-style: italic; font-weight: 300; }
+
+    .hero-desc {
+      font-family: var(--serif);
+      font-style: italic;
+      font-weight: 300;
+      font-size: clamp(1.15rem, 1.6vw, 1.4rem);
+      line-height: 1.5;
+      color: var(--ink-soft);
+      max-width: 540px;
+      margin-bottom: 3rem;
+      animation: fadeUp 1s 0.55s both;
+    }
+
+    .hero-btns {
+      display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center;
+      animation: fadeUp 1s 0.75s both;
+    }
+
+    .hero-meta {
+      margin-top: 5rem;
+      display: flex;
+      align-items: center;
+      gap: 1.2rem;
+      font-size: 0.78rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--muted);
+      animation: fadeUp 1s 1s both;
+    }
+    .hero-meta .dot {
+      width: 4px; height: 4px;
+      border-radius: 50%;
+      background: var(--muted);
+    }
+
+    /* rotating badge */
+    .rotating-badge {
+      position: absolute;
+      bottom: 1.5rem;
+      right: 2.5rem;
+      width: 110px; height: 110px;
+      z-index: 3;
+      animation: fadeUp 1s 1.5s both;
+      pointer-events: none;
+    }
+    .rotating-badge svg { width: 100%; height: 100%; animation: spinSlow 18s linear infinite; }
+    .rotating-badge .center {
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      width: 32px; height: 32px;
+      border-radius: 50%;
+      background: var(--clay);
+      color: var(--cream);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--serif);
+      font-style: italic;
+      font-size: 1rem;
+    }
+    @media (max-width: 960px) {
+      .rotating-badge { display: none; }
+    }
+
+    /* keyword marquee */
+    .marquee {
+      background: var(--clay);
+      color: var(--cream);
+      overflow: hidden;
+      padding: 1.4rem 0;
+      border-top: 1px solid var(--clay);
+      border-bottom: 1px solid var(--clay);
+      position: relative;
+    }
+    .marquee-track {
+      display: flex;
+      gap: 3.5rem;
+      white-space: nowrap;
+      animation: marqueeScroll 38s linear infinite;
+      width: max-content;
+      font-family: var(--serif);
+      font-style: italic;
+      font-weight: 300;
+      font-size: clamp(1.6rem, 3vw, 2.4rem);
+      line-height: 1;
+    }
+    .marquee-track span {
+      display: inline-flex;
+      align-items: center;
+      gap: 3.5rem;
+      color: var(--cream);
+    }
+    .marquee-track span::after {
+      content: '✦';
+      font-style: normal;
+      font-size: 1rem;
+      color: var(--cream);
+      opacity: 0.7;
+      transform: translateY(-3px);
+    }
+    @keyframes marqueeScroll {
+      from { transform: translateX(0); }
+      to   { transform: translateX(-50%); }
+    }
+
+    /* ── Buttons ── */
+    .btn-primary {
+      background: var(--clay);
+      color: var(--cream);
+      padding: 1rem 2rem;
+      font-family: var(--sans);
+      font-size: 0.88rem;
+      font-weight: 500;
+      letter-spacing: 0.01em;
+      text-decoration: none;
+      border-radius: 999px;
+      transition: transform 0.25s, opacity 0.25s, box-shadow 0.3s, background 0.3s;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      position: relative;
+      overflow: hidden;
+    }
+    .btn-primary::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(120deg, transparent 30%, rgba(255,255,255,0.22) 50%, transparent 70%);
+      transform: translateX(-100%);
+      transition: transform 0.7s cubic-bezier(.22,.61,.36,1);
+    }
+    .btn-primary:hover { background: var(--gold-2); }
+    .btn-primary:hover::before { transform: translateX(100%); }
+    .btn-primary::after {
+      content: '→';
+      font-family: var(--serif);
+      transition: transform 0.25s;
+      position: relative;
+      z-index: 1;
+    }
+    .btn-primary > * { position: relative; z-index: 1; }
+    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 14px 28px -16px rgba(0,0,0,0.6); }
+    .btn-primary:hover::after { transform: translateX(4px); }
+
+    .btn-outline {
+      background: transparent;
+      border: 1px solid var(--ink);
+      color: var(--ink);
+      padding: 1rem 2rem;
+      font-family: var(--sans);
+      font-size: 0.88rem;
+      font-weight: 500;
+      text-decoration: none;
+      border-radius: 999px;
+      transition: background 0.25s, color 0.25s;
+      display: inline-flex;
+      align-items: center;
+    }
+    .btn-outline:hover { background: var(--ink); color: var(--bg); }
+
+    /* ── Sections ── */
+    section { padding: 9rem 2.5rem; position: relative; }
+    .container { max-width: 1180px; margin: 0 auto; }
+
+    .section-head {
+      max-width: 720px;
+      margin-bottom: 5rem;
+    }
+    .section-head .eyebrow { display: block; margin-bottom: 1.5rem; }
+
+    /* ── About ── */
+    #about { background: var(--sage-soft); border-top: 1px solid var(--line); }
+    #about .stat,
+    #about .stat:nth-child(1), #about .stat:nth-child(2) { border-color: rgba(245,240,235,0.10); }
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6rem;
+      align-items: start;
+    }
+    .about-visual {
+      margin-top: 3rem;
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+    }
+
+    /* animated meditative composition */
+    .about-anim {
+      position: relative;
+      aspect-ratio: 4/5;
+      border-radius: 6px;
+      overflow: hidden;
+      background:
+        radial-gradient(ellipse 80% 60% at 50% 60%, rgba(201,169,110,0.10) 0%, transparent 70%),
+        linear-gradient(180deg, var(--sage) 0%, var(--cream) 100%);
+      border: 1px solid var(--line);
+      isolation: isolate;
+    }
+    .about-anim svg { width: 100%; height: 100%; display: block; }
+
+    .anim-tag {
+      position: absolute;
+      top: 1.2rem;
+      left: 1.2rem;
+      z-index: 3;
+      background: var(--clay);
+      color: var(--cream);
+      font-family: var(--sans);
+      font-size: 0.65rem;
+      font-weight: 500;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      padding: 0.4rem 0.8rem;
+      border-radius: 999px;
+    }
+    .anim-tag .pulse-dot {
+      display: inline-block;
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--cream);
+      margin-right: 0.5rem;
+      vertical-align: 1px;
+      animation: dotPulse 1.8s ease-in-out infinite;
+    }
+    @keyframes dotPulse {
+      0%, 100% { opacity: 0.35; transform: scale(0.8); }
+      50%      { opacity: 1; transform: scale(1.15); }
+    }
+
+    .anim-caption {
+      position: absolute;
+      bottom: 1.2rem;
+      left: 1.2rem;
+      right: 1.2rem;
+      z-index: 3;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      gap: 1rem;
+      color: var(--ink);
+    }
+    .anim-caption .quote {
+      font-family: var(--serif);
+      font-style: italic;
+      font-weight: 300;
+      font-size: 1.15rem;
+      line-height: 1.25;
+    }
+    .anim-caption .quote em { color: var(--clay); font-style: italic; }
+    .anim-caption .meta {
+      font-family: var(--sans);
+      font-size: 0.7rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--ink-soft);
+      text-align: right;
+      white-space: nowrap;
+    }
+
+    /* SVG animations */
+    .ring-outer { animation: spinSlow 36s linear infinite; transform-origin: center; }
+    .ring-mid   { animation: spinSlow 26s linear infinite reverse; transform-origin: center; }
+    .ring-inner { animation: spinSlow 18s linear infinite; transform-origin: center; }
+    .breathe    { animation: breatheCircle 6s ease-in-out infinite; transform-origin: center; transform-box: fill-box; }
+    @keyframes breatheCircle {
+      0%, 100% { transform: scale(1);    opacity: 0.55; }
+      50%      { transform: scale(1.18); opacity: 0.85; }
+    }
+    .breathe.slow { animation-duration: 8s; }
+    .draw-path {
+      stroke-dasharray: 1200;
+      stroke-dashoffset: 1200;
+      animation: drawPath 10s ease-in-out infinite;
+    }
+    @keyframes drawPath {
+      0%   { stroke-dashoffset: 1200; }
+      45%  { stroke-dashoffset: 0; }
+      55%  { stroke-dashoffset: 0; }
+      100% { stroke-dashoffset: -1200; }
+    }
+
+    .orbit {
+      transform-origin: center;
+      animation: spinSlow 20s linear infinite;
+    }
+    .orbit.reverse { animation: spinSlow 28s linear infinite reverse; }
+    .orbit .dot {
+      animation: dotBlink 3s ease-in-out infinite;
+    }
+    @keyframes dotBlink {
+      0%, 100% { opacity: 0.4; }
+      50%      { opacity: 1; }
+    }
+
+    .live-stat {
+      position: absolute;
+      z-index: 2;
+      background: rgba(13,13,13,0.55);
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(201,169,110,0.2);
+      padding: 0.7rem 1rem;
+      border-radius: 10px;
+      color: var(--ink);
+      animation: floatY 5s ease-in-out infinite;
+    }
+    .live-stat.s-a { top: 28%; right: 8%; animation-delay: -1s; }
+    .live-stat.s-b { bottom: 30%; left: 6%; animation-delay: -2.5s; }
+    .live-stat .num {
+      font-family: var(--serif);
+      font-weight: 300;
+      font-size: 1.6rem;
+      color: var(--clay);
+      line-height: 1;
+      display: block;
+    }
+    .live-stat .lbl {
+      font-family: var(--sans);
+      font-size: 0.62rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--ink-soft);
+      margin-top: 0.2rem;
+      display: block;
+    }
+    @keyframes floatY {
+      0%, 100% { transform: translateY(0); }
+      50%      { transform: translateY(-8px); }
+    }
+
+    .about-quote {
+      border-top: 1px solid var(--line);
+      padding-top: 2rem;
+      font-family: var(--serif);
+      font-weight: 300;
+      font-size: clamp(1.4rem, 2vw, 1.7rem);
+      line-height: 1.35;
+      color: var(--ink);
+      letter-spacing: -0.005em;
+    }
+    .about-quote em { font-style: italic; color: var(--clay); }
+    .about-quote .mark {
+      font-family: var(--serif);
+      font-style: italic;
+      font-size: 3rem;
+      line-height: 0.3;
+      color: var(--clay);
+      display: block;
+      margin-bottom: 0.4rem;
+    }
+    .about-quote cite {
+      display: block;
+      margin-top: 1.2rem;
+      font-style: normal;
+      font-family: var(--sans);
+      font-size: 0.72rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--ink-soft);
+    }
+    .about-text p {
+      color: var(--ink-soft);
+      margin-bottom: 1.3rem;
+      max-width: 460px;
+      font-size: 1.02rem;
+    }
+    .about-text p.lead {
+      font-family: var(--serif);
+      font-size: 1.55rem;
+      line-height: 1.4;
+      color: var(--ink);
+      margin-bottom: 2rem;
+      font-weight: 300;
+    }
+    .about-stats {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0;
+    }
+    .stat {
+      padding: 1.8rem 1.5rem 1.8rem 0;
+      border-top: 1px solid var(--line);
+    }
+    .stat:nth-child(1), .stat:nth-child(2) { border-top: none; }
+    .stat-number {
+      font-family: var(--serif);
+      font-size: 3.4rem;
+      font-weight: 300;
+      color: var(--ink);
+      line-height: 1;
+      margin-bottom: 0.6rem;
+      letter-spacing: -0.03em;
+      display: flex;
+      align-items: baseline;
+      gap: 0.1rem;
+    }
+    .stat-number .count { display: inline-block; }
+    .stat-number em { font-style: italic; font-weight: 300; }
+    .stat-label {
+      font-size: 0.78rem;
+      letter-spacing: 0.05em;
+      color: var(--ink-soft);
+    }
+
+    /* ── Services (visual cards) ── */
+    #servicios { background: var(--cream); position: relative; overflow: hidden; }
+    #servicios::before {
+      content: 'PILATES · REFORMER · PILATES · REFORMER · PILATES · REFORMER ·';
+      position: absolute;
+      top: 18%;
+      right: -10%;
+      font-family: var(--serif);
+      font-style: italic;
+      font-weight: 300;
+      font-size: clamp(8rem, 18vw, 22rem);
+      letter-spacing: -0.02em;
+      color: var(--cream-2);
+      white-space: nowrap;
+      opacity: 0.6;
+      pointer-events: none;
+      line-height: 1;
+    }
+    #servicios .container { position: relative; z-index: 1; }
+
+    .services-grid-new {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.2rem;
+    }
+    .services-grid-extra {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.2rem;
+      margin-top: 1.2rem;
+    }
+
+    .vcard {
+      background: var(--sage);
+      border: 1px solid rgba(245,240,235,0.06);
+      border-radius: 8px;
+      padding: 2rem;
+      min-height: 420px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      position: relative;
+      overflow: hidden;
+      cursor: default;
+      transition: transform 0.5s cubic-bezier(.22,.61,.36,1), background 0.5s ease, border-color 0.5s ease;
+    }
+    .vcard.dark {
+      background: var(--clay);
+      color: var(--cream);
+      border-color: var(--clay);
+    }
+    .vcard.sage { background: var(--sage); }
+    .vcard.blush { background: var(--blush); }
+    .vcard:hover { transform: translateY(-8px); border-color: rgba(201,169,110,0.4); }
+    .vcard.dark:hover { border-color: var(--clay); }
+
+    .vcard-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+    .vcard-num {
+      font-family: var(--serif);
+      font-style: italic;
+      font-weight: 300;
+      font-size: 1.05rem;
+      opacity: 0.55;
+    }
+    .vcard-meta {
+      font-family: var(--sans);
+      font-size: 0.72rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      opacity: 0.6;
+      text-align: right;
+    }
+
+    .vcard-visual {
+      width: 100%;
+      height: 160px;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 1.8rem;
+    }
+    .vcard-visual svg { width: 100%; height: 100%; overflow: visible; }
+    .vcard-visual .blob {
+      animation: morphBlob 9s ease-in-out infinite;
+      transform-origin: center;
+      transition: transform 0.5s cubic-bezier(.22,.61,.36,1);
+    }
+    .vcard:hover .blob { transform: scale(1.08) rotate(6deg); animation-play-state: paused; }
+    @keyframes morphBlob {
+      0%, 100% { transform: rotate(0deg) scale(1); }
+      33%      { transform: rotate(120deg) scale(1.04); }
+      66%      { transform: rotate(240deg) scale(0.96); }
+    }
+    .vcard-visual .ring {
+      transition: stroke-dashoffset 1.2s cubic-bezier(.22,.61,.36,1);
+    }
+    .vcard:hover .ring { stroke-dashoffset: 0 !important; }
+
+    .vcard-name {
+      font-family: var(--serif);
+      font-weight: 300;
+      font-size: clamp(1.9rem, 2.5vw, 2.6rem);
+      line-height: 1;
+      letter-spacing: -0.018em;
+      margin-bottom: 0.8rem;
+    }
+    .vcard-name em { font-style: italic; }
+    .vcard-desc {
+      font-size: 0.92rem;
+      line-height: 1.55;
+      opacity: 0.78;
+      margin-bottom: 1.5rem;
+    }
+    .vcard-link {
+      font-family: var(--sans);
+      font-size: 0.78rem;
+      letter-spacing: 0.05em;
+      text-decoration: none;
+      color: inherit;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding-bottom: 0.3rem;
+      border-bottom: 1px solid currentColor;
+      align-self: flex-start;
+      transition: gap 0.3s ease;
+    }
+    .vcard-link:hover { gap: 0.9rem; }
+    .vcard.extra { min-height: 280px; }
+    .vcard.extra .vcard-visual { height: 90px; margin-bottom: 1.2rem; }
+
+    /* ── Gallery strip ── */
+    #galeria {
+      background: var(--cream);
+      padding: 4rem 0 7rem;
+      overflow: hidden;
+      position: relative;
+    }
+    .gallery-track {
+      display: flex;
+      gap: 1.2rem;
+      padding: 0 2.5rem 1.5rem;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      scrollbar-width: none;
+      cursor: grab;
+    }
+    .gallery-track:active { cursor: grabbing; }
+    .gallery-track::-webkit-scrollbar { display: none; }
+    .gallery-item {
+      flex: 0 0 360px;
+      aspect-ratio: 4/5;
+      border-radius: 6px;
+      overflow: hidden;
+      position: relative;
+      scroll-snap-align: start;
+      transition: transform 0.5s cubic-bezier(.22,.61,.36,1);
+      background: var(--cream-2);
+    }
+    .gallery-item:hover { transform: translateY(-6px); }
+    .gallery-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      filter: brightness(0.95) contrast(1.02) saturate(0.85);
+      transition: transform 0.8s cubic-bezier(.22,.61,.36,1), filter 0.5s ease;
+    }
+    .gallery-item:hover img {
+      transform: scale(1.06);
+      filter: brightness(1) contrast(1.05) saturate(0.95);
+    }
+    .gallery-item .caption {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      padding: 2.5rem 1.5rem 1.3rem;
+      color: #fff;
+      font-family: var(--sans);
+      font-size: 0.75rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      background: linear-gradient(to top, rgba(0,0,0,0.55) 0%, transparent 100%);
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+    }
+    .gallery-item .caption .num {
+      font-family: var(--serif);
+      font-style: italic;
+      font-size: 1.1rem;
+      letter-spacing: 0;
+      text-transform: none;
+      opacity: 0.85;
+    }
+
+    .gallery-hint {
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 0 2.5rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      gap: 2rem;
+      flex-wrap: wrap;
+    }
+    .gallery-hint h3 {
+      font-family: var(--serif);
+      font-weight: 300;
+      font-size: clamp(2.2rem, 4.4vw, 3.4rem);
+      line-height: 1.02;
+      letter-spacing: -0.02em;
+      color: var(--ink);
+      margin-top: 0.6rem;
+    }
+    .gallery-hint h3 em { font-style: italic; }
+
+    .sede-buttons {
+      display: flex;
+      gap: 0.6rem;
+      margin-top: 1.5rem;
+      flex-wrap: wrap;
+    }
+    .sede-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.7rem;
+      padding: 0.7rem 1.1rem 0.7rem 0.9rem;
+      background: var(--sage);
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      text-decoration: none;
+      color: var(--ink);
+      font-family: var(--sans);
+      font-size: 0.82rem;
+      transition: background 0.3s ease, border-color 0.3s ease, transform 0.3s ease, color 0.3s ease;
+    }
+    .sede-btn:hover {
+      background: var(--clay);
+      color: var(--cream);
+      border-color: var(--clay);
+      transform: translateY(-2px);
+    }
+    .sede-btn .pin {
+      width: 26px; height: 26px;
+      border-radius: 50%;
+      background: var(--clay);
+      color: var(--cream);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      transition: background 0.3s ease, color 0.3s ease;
+    }
+    .sede-btn .pin svg { width: 13px; height: 13px; }
+    .sede-btn:hover .pin { background: var(--cream); color: var(--clay); }
+    .sede-btn .label {
+      display: flex;
+      flex-direction: column;
+      line-height: 1.15;
+      text-align: left;
+    }
+    .sede-btn .label b { font-weight: 500; font-size: 0.82rem; }
+    .sede-btn .label small {
+      font-size: 0.68rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      opacity: 0.65;
+      margin-top: 0.15rem;
+    }
+    .sede-btn .arr {
+      margin-left: 0.4rem;
+      font-family: var(--serif);
+      font-style: italic;
+      font-size: 1rem;
+      opacity: 0.7;
+      transition: transform 0.3s ease, opacity 0.3s ease;
+    }
+    .sede-btn:hover .arr { transform: translateX(3px); opacity: 1; }
+
+    .swipe-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 0.9rem 1.4rem 0.9rem 1.6rem;
+      background: var(--clay);
+      color: var(--cream);
+      border-radius: 999px;
+      font-family: var(--sans);
+      font-size: 0.78rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      box-shadow: 0 14px 30px -18px rgba(0,0,0,0.7);
+      position: relative;
+      cursor: pointer;
+      user-select: none;
+      transition: transform 0.3s ease, background 0.3s ease;
+    }
+    .swipe-cta:hover { transform: translateY(-2px); background: var(--gold-2); }
+    .swipe-cta .arrow-circle {
+      width: 34px; height: 34px;
+      border-radius: 50%;
+      background: var(--cream);
+      color: var(--clay);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.1rem;
+      position: relative;
+    }
+    .swipe-cta .arrow-circle::after {
+      content: '';
+      position: absolute;
+      inset: -4px;
+      border-radius: 50%;
+      border: 1px solid var(--cream);
+      animation: pulseRing 2.2s ease-out infinite;
+    }
+    @keyframes pulseRing {
+      0%   { transform: scale(1); opacity: 0.7; }
+      80%  { transform: scale(1.7); opacity: 0; }
+      100% { transform: scale(1.7); opacity: 0; }
+    }
+    .swipe-cta .arrow {
+      display: inline-block;
+      animation: swipeArrow 1.6s ease-in-out infinite;
+    }
+    @keyframes swipeArrow {
+      0%, 100% { transform: translateX(0); }
+      50%      { transform: translateX(5px); }
+    }
+
+    /* ── Pricing ── */
+    #precios { background: var(--cream-2); }
+    .pricing-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+    }
+    .price-card {
+      background: transparent;
+      border: 1px solid var(--line);
+      border-radius: 4px;
+      padding: 2.8rem 2.2rem;
+      transition: transform 0.4s cubic-bezier(.22,.61,.36,1), border-color 0.3s;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+    }
+    .price-card:hover {
+      transform: translateY(-4px);
+      border-color: var(--ink);
+    }
+    .price-card.featured {
+      background: var(--clay);
+      color: var(--cream);
+      border-color: var(--clay);
+    }
+    .price-card.featured .price-type,
+    .price-card.featured .price-amount,
+    .price-card.featured .price-note,
+    .price-card.featured .price-features li,
+    .price-card.featured .placeholder-price { color: var(--cream); }
+    .price-card.featured .price-features li { border-color: rgba(13,13,13,0.15); }
+    .price-card.featured .price-features li::before { background: var(--cream); }
+    .price-card.featured::after {
+      content: 'Más elegida';
+      position: absolute;
+      top: 1.5rem; right: 1.5rem;
+      font-size: 0.7rem;
+      letter-spacing: 0.05em;
+      color: var(--cream);
+      opacity: 0.85;
+      font-style: italic;
+      font-family: var(--serif);
+    }
+    .price-type {
+      font-family: var(--serif);
+      font-style: italic;
+      font-weight: 300;
+      font-size: 1.2rem;
+      color: var(--clay);
+      margin-bottom: 2rem;
+    }
+    .price-amount {
+      font-family: var(--serif);
+      font-size: 3rem;
+      font-weight: 300;
+      line-height: 1;
+      margin-bottom: 0.6rem;
+      letter-spacing: -0.02em;
+      color: var(--ink);
+    }
+    .placeholder-price {
+      color: var(--muted);
+      font-style: italic;
+      font-size: 1.8rem;
+      font-family: var(--serif);
+      font-weight: 300;
+    }
+    .price-note {
+      font-size: 0.82rem;
+      color: var(--ink-soft);
+      margin: 0.4rem 0 2rem;
+    }
+    .price-features {
+      list-style: none;
+      text-align: left;
+      margin-bottom: 2rem;
+      flex: 1;
+    }
+    .price-features li {
+      font-size: 0.92rem;
+      color: var(--ink-soft);
+      padding: 0.7rem 0;
+      border-bottom: 1px solid var(--line);
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+    }
+    .price-features li::before {
+      content: '';
+      width: 4px; height: 4px;
+      background: var(--clay);
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+    .price-card .btn-outline,
+    .price-card .btn-primary { width: 100%; justify-content: center; }
+    .price-card.featured .btn-primary { background: var(--cream); color: var(--clay); }
+    .price-card.featured .btn-primary:hover { background: var(--gold-2); color: var(--cream); }
+
+    /* ── Testimonials (Google reviews style) ── */
+    #testimonios { background: var(--sage); }
+
+    .reviews-summary {
+      display: flex;
+      align-items: center;
+      gap: 2.5rem;
+      padding: 1.8rem 2rem;
+      background: var(--sage);
+      border-radius: 8px;
+      border: 1px solid rgba(245,240,235,0.08);
+      margin-bottom: 3rem;
+      max-width: 720px;
+      flex-wrap: wrap;
+    }
+    .google-logo {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.95rem;
+      color: var(--ink);
+    }
+    .google-logo .g-mark {
+      width: 28px; height: 28px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .reviews-summary .divider {
+      width: 1px;
+      height: 36px;
+      background: rgba(245,240,235,0.18);
+    }
+    .reviews-rating {
+      display: flex;
+      align-items: center;
+      gap: 0.9rem;
+    }
+    .reviews-rating .score {
+      font-family: var(--serif);
+      font-size: 2.4rem;
+      font-weight: 300;
+      color: var(--ink);
+      line-height: 1;
+      letter-spacing: -0.02em;
+    }
+    .reviews-rating .stars-line {
+      display: flex;
+      flex-direction: column;
+      gap: 0.3rem;
+    }
+    .reviews-rating .stars {
+      color: #f5a623;
+      font-size: 0.95rem;
+      letter-spacing: 2px;
+    }
+    .reviews-rating .count {
+      font-size: 0.78rem;
+      color: var(--ink-soft);
+    }
+    .reviews-link {
+      margin-left: auto;
+      font-size: 0.82rem;
+      color: var(--ink);
+      text-decoration: none;
+      border-bottom: 1px solid rgba(245,240,235,0.25);
+      padding-bottom: 1px;
+      transition: border-color 0.2s;
+    }
+    .reviews-link:hover { border-color: var(--clay); color: var(--clay); }
+
+    .testimonios-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+    }
+    .testimonio {
+      background: var(--sage);
+      border: 1px solid rgba(245,240,235,0.08);
+      border-radius: 8px;
+      padding: 1.8rem 1.8rem 1.5rem;
+      display: flex;
+      flex-direction: column;
+      transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+    }
+    .testimonio:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 18px 30px -22px rgba(0,0,0,0.6);
+      border-color: rgba(201,169,110,0.35);
+    }
+    .testimonio-head {
+      display: flex;
+      align-items: center;
+      gap: 0.9rem;
+      margin-bottom: 1.1rem;
+    }
+    .avatar {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 500;
+      font-size: 1rem;
+      color: #fff;
+      flex-shrink: 0;
+    }
+    .avatar.a1 { background: #6b8e7f; }
+    .avatar.a2 { background: #b8927a; }
+    .avatar.a3 { background: #8a7ba3; }
+    .avatar.a4 { background: #c97d6e; }
+    .testimonio-author-block {
+      display: flex;
+      flex-direction: column;
+      gap: 0.15rem;
+      min-width: 0;
+      flex: 1;
+    }
+    .testimonio-name {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.92rem;
+      font-weight: 500;
+      color: var(--ink);
+      line-height: 1.2;
+    }
+    .testimonio-meta {
+      font-size: 0.75rem;
+      color: var(--ink-soft);
+      line-height: 1.2;
+    }
+    .testimonio-g {
+      width: 16px;
+      height: 16px;
+      opacity: 0.85;
+      flex-shrink: 0;
+    }
+    .testimonio-stars {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      margin-bottom: 0.8rem;
+      color: #f5a623;
+      font-size: 0.88rem;
+      letter-spacing: 1.5px;
+    }
+    .testimonio-stars .date {
+      color: var(--ink-soft);
+      font-size: 0.75rem;
+      letter-spacing: 0;
+      font-family: 'DM Sans', sans-serif;
+    }
+    .testimonio-text {
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 400;
+      font-size: 0.94rem;
+      line-height: 1.55;
+      color: var(--ink);
+      font-style: normal;
+    }
+
+    /* ── Location ── */
+    #ubicacion { background: var(--cream); }
+    .location-grid {
+      display: grid;
+      grid-template-columns: 1fr 1.15fr;
+      gap: 5rem;
+      align-items: start;
+    }
+    .location-block {
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--line);
+      margin-bottom: 2.5rem;
+    }
+    .location-block:last-of-type { margin-bottom: 0; }
+    .location-block h3 {
+      font-family: var(--serif);
+      font-weight: 300;
+      font-size: 0.78rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--ink-soft);
+      margin-bottom: 1rem;
+    }
+    .location-block .addr {
+      font-family: var(--serif);
+      font-weight: 300;
+      font-size: 1.7rem;
+      line-height: 1.2;
+      color: var(--ink);
+      letter-spacing: -0.01em;
+      margin-bottom: 0.4rem;
+    }
+    .location-block .addr em { font-style: italic; }
+    .location-block .sub {
+      font-size: 0.95rem;
+      color: var(--ink-soft);
+    }
+
+    .location-info .btn-primary { margin-top: 1.5rem; }
+
+    .map-placeholder {
+      background: var(--bg-2);
+      border: 1px solid var(--line);
+      border-radius: 4px;
+      height: 560px;
+      overflow: hidden;
+      position: relative;
+    }
+    .map-placeholder iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+      filter: grayscale(0.8) invert(0.92) contrast(0.92) hue-rotate(180deg) brightness(0.95);
+    }
+    .map-tabs {
+      position: absolute;
+      top: 1rem;
+      left: 1rem;
+      z-index: 2;
+      display: flex;
+      gap: 0.4rem;
+      background: var(--sage);
+      border-radius: 999px;
+      padding: 0.3rem;
+      box-shadow: 0 10px 24px -14px rgba(0,0,0,0.5);
+      border: 1px solid var(--line);
+    }
+    .map-tab {
+      padding: 0.5rem 1rem;
+      border-radius: 999px;
+      font-family: var(--sans);
+      font-size: 0.78rem;
+      color: var(--ink);
+      cursor: pointer;
+      border: none;
+      background: transparent;
+      transition: background 0.3s ease, color 0.3s ease;
+    }
+    .map-tab.active {
+      background: var(--clay);
+      color: var(--cream);
+    }
+    .map-tab:not(.active):hover { background: var(--sage-soft); }
+
+    /* ── CTA ── */
+    #reservar {
+      background: var(--clay);
+      color: var(--cream);
+      text-align: center;
+      padding: 10rem 2rem;
+      position: relative;
+      overflow: hidden;
+    }
+    #reservar::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 70% 50% at 50% 100%, rgba(201,169,110,0.12) 0%, transparent 60%),
+        radial-gradient(ellipse 50% 40% at 50% 0%, rgba(232,201,154,0.06) 0%, transparent 60%);
+      pointer-events: none;
+    }
+    #reservar .container { position: relative; }
+    #reservar .eyebrow { color: rgba(13,13,13,0.55); margin-bottom: 1.8rem; display: block; }
+    #reservar h2.section-title { color: var(--cream); margin-bottom: 2rem; }
+    #reservar h2.section-title em { color: var(--cream); font-style: italic; }
+    #reservar p.lede {
+      font-family: var(--serif);
+      font-style: italic;
+      font-weight: 300;
+      color: rgba(13,13,13,0.72);
+      max-width: 520px;
+      margin: 0 auto 3rem;
+      font-size: 1.3rem;
+      line-height: 1.5;
+    }
+
+    .whatsapp-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.8rem;
+      background: var(--cream);
+      color: var(--clay);
+      padding: 1.1rem 2.4rem;
+      border-radius: 999px;
+      font-family: var(--sans);
+      font-size: 0.9rem;
+      font-weight: 500;
+      text-decoration: none;
+      transition: transform 0.25s, background 0.25s, color 0.25s;
+    }
+    .whatsapp-btn:hover { transform: translateY(-2px); background: var(--cream); color: var(--clay); }
+    .whatsapp-btn svg { width: 20px; height: 20px; }
+
+    .ig-line {
+      margin-top: 2.2rem;
+      font-size: 0.85rem;
+      color: rgba(13,13,13,0.6);
+    }
+    .ig-line a {
+      color: var(--cream);
+      text-decoration: none;
+      border-bottom: 1px solid rgba(13,13,13,0.32);
+      padding-bottom: 1px;
+      transition: border-color 0.2s, color 0.2s;
+    }
+    .ig-line a:hover { border-color: var(--cream); color: var(--cream); }
+
+    /* ── Footer ── */
+    footer {
+      background: var(--cream);
+      padding: 5rem 2.5rem 2.5rem;
+      border-top: 1px solid var(--line);
+    }
+    .footer-grid {
+      max-width: 1180px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1.6fr 1fr 1fr;
+      gap: 4rem;
+      margin-bottom: 4rem;
+    }
+    .footer-logo {
+      font-family: var(--serif);
+      font-weight: 300;
+      font-size: 2.6rem;
+      line-height: 1;
+      color: var(--ink);
+      margin-bottom: 0.8rem;
+      letter-spacing: -0.02em;
+    }
+    .footer-logo em { font-style: italic; }
+    .footer-tag {
+      font-size: 0.85rem;
+      color: var(--ink-soft);
+      max-width: 280px;
+    }
+    .footer-col h4 {
+      font-family: var(--sans);
+      font-size: 0.78rem;
+      font-weight: 500;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--ink-soft);
+      margin-bottom: 1.4rem;
+    }
+    .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 0.7rem; }
+    .footer-col a {
+      font-size: 0.98rem;
+      color: var(--ink);
+      text-decoration: none;
+      transition: opacity 0.2s;
+      opacity: 0.75;
+    }
+    .footer-col a:hover { opacity: 1; }
+    .footer-bottom {
+      max-width: 1180px;
+      margin: 0 auto;
+      padding-top: 2rem;
+      border-top: 1px solid var(--line);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+    .footer-bottom p {
+      font-size: 0.8rem;
+      color: var(--muted);
+    }
+
+    /* ── Floating WA ── */
+    .float-wa {
+      position: fixed;
+      bottom: 1.8rem;
+      right: 1.8rem;
+      z-index: 99;
+      background: var(--clay);
+      color: var(--cream);
+      width: 54px;
+      height: 54px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+      box-shadow: 0 12px 30px -10px rgba(0,0,0,0.7);
+      transition: transform 0.25s, background 0.25s;
+      animation: fadeUp 1s 1.4s both;
+    }
+    .float-wa svg { width: 24px; height: 24px; }
+    .float-wa:hover { transform: scale(1.08); background: var(--gold-2); }
+
+    /* ── Responsive ── */
+    @media (max-width: 960px) {
+      nav { padding: 1rem 1.2rem; }
+      nav.scrolled { padding: 0.8rem 1.2rem; }
+      .nav-links li:not(:last-child) { display: none; }
+
+      #hero { padding: 8rem 1.4rem 5rem; }
+      .hero-meta { flex-direction: column; gap: 0.6rem; margin-top: 3.5rem; }
+      .hero-meta .dot { display: none; }
+
+      section { padding: 5.5rem 1.4rem; }
+      .section-head { margin-bottom: 3rem; }
+
+      .about-grid,
+      .location-grid { grid-template-columns: 1fr; gap: 3rem; }
+      .about-visual { max-width: 460px; margin-left: auto; margin-right: auto; }
+      .about-stats { grid-template-columns: 1fr 1fr; }
+
+      .service-row { grid-template-columns: 1fr; gap: 0.8rem; padding: 2rem 0; }
+      .service-meta { text-align: left; }
+
+      .pricing-grid,
+      .testimonios-grid { grid-template-columns: 1fr; gap: 1.5rem; }
+      .reviews-summary { gap: 1.2rem; padding: 1.4rem; }
+      .reviews-summary .divider { display: none; }
+      .reviews-link { margin-left: 0; }
+
+      .services-grid-new,
+      .services-grid-extra { grid-template-columns: 1fr; }
+      #servicios::before { font-size: 6rem; top: 8%; }
+      .vcard { min-height: 340px; }
+      .gallery-item { flex: 0 0 78vw; }
+
+      .footer-grid { grid-template-columns: 1fr; gap: 2.5rem; margin-bottom: 2.5rem; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── Scroll progress ── -->
+<div class="scroll-progress" id="scrollProgress"></div>
+<div class="cursor-halo" id="cursorHalo"></div>
+
+<!-- ── Nav ── -->
+<nav id="navbar">
+  <a href="#hero" class="nav-logo">Non Solo <em>Pilates</em></a>
+  <ul class="nav-links">
+    <li><a href="#servicios">Clases</a></li>
+    <li><a href="#precios">Precios</a></li>
+    <li><a href="#ubicacion">Ubicación</a></li>
+    <li><a href="#reservar" class="nav-cta">Reservar</a></li>
+  </ul>
+</nav>
+
+<!-- ── Hero ── -->
+<section id="hero">
+  <div class="hero-shapes">
+    <div class="hero-shape s1" data-depth="0.04"></div>
+    <div class="hero-shape s2" data-depth="0.06"></div>
+    <div class="hero-shape s3" data-depth="0.08"></div>
+    <div class="hero-shape s4" data-depth="0.05"></div>
+  </div>
+
+  <p class="eyebrow hero-eyebrow">Pilates Reformer · Parque Patricios</p>
+  <h1 class="hero-title" id="heroTitle">
+    <span class="word-reveal"><span class="w" style="animation-delay:.35s">Volvé</span></span>
+    <span class="word-reveal"><span class="w" style="animation-delay:.45s">a tu</span></span><br>
+    <span class="word-reveal"><span class="w" style="animation-delay:.55s">cuerpo,</span></span>
+    <span class="word-reveal"><em><span class="w" style="animation-delay:.7s">despacio</span></em></span><span class="word-reveal"><span class="w" style="animation-delay:.7s">.</span></span>
+  </h1>
+  <p class="hero-desc">Un estudio boutique de Pilates Reformer en Parque Patricios. Clases individuales, en dúo y grupales — pensadas para que cada movimiento tenga sentido.</p>
+  <div class="hero-btns">
+    <a href="#reservar" class="btn-primary magnetic">Reservar mi clase</a>
+    <a href="#servicios" class="btn-outline magnetic">Ver clases</a>
+  </div>
+  <div class="hero-meta">
+    <span>2 sedes</span>
+    <span class="dot"></span>
+    <span>Clases de 45 minutos</span>
+    <span class="dot"></span>
+    <span>9.3 en Wellhub</span>
+  </div>
+</section>
+
+<!-- ── Marquee ── -->
+<div class="marquee" aria-hidden="true">
+  <div class="marquee-track">
+    <span>Fuerza</span><span>Postura</span><span>Movilidad</span><span>Respiración</span><span>Equilibrio</span><span>Consciencia</span><span>Bienestar</span>
+    <span>Fuerza</span><span>Postura</span><span>Movilidad</span><span>Respiración</span><span>Equilibrio</span><span>Consciencia</span><span>Bienestar</span>
+  </div>
+</div>
+
+<!-- ── About ── -->
+<section id="about">
+  <div class="container">
+    <div class="about-grid">
+      <div class="reveal">
+        <p class="eyebrow" style="margin-bottom:1.5rem;">Quiénes somos</p>
+        <h2 class="section-title">Más que un estudio,<br>una <em>experiencia</em>.</h2>
+
+        <div class="about-visual">
+          <div class="about-anim">
+            <span class="anim-tag"><span class="pulse-dot"></span>En movimiento</span>
+
+            <div class="live-stat s-a">
+              <span class="num">+45<em style="font-style: italic;">′</em></span>
+              <span class="lbl">por sesión</span>
+            </div>
+            <div class="live-stat s-b">
+              <span class="num">9.3<em style="font-style: italic; opacity: 0.6;">★</em></span>
+              <span class="lbl">Wellhub</span>
+            </div>
+
+            <svg viewBox="0 0 400 500" preserveAspectRatio="xMidYMid slice">
+              <defs>
+                <radialGradient id="glowGold" cx="50%" cy="50%" r="50%">
+                  <stop offset="0%" stop-color="#c9a96e" stop-opacity="0.7"/>
+                  <stop offset="100%" stop-color="#c9a96e" stop-opacity="0"/>
+                </radialGradient>
+              </defs>
+
+              <!-- soft glow -->
+              <circle class="breathe" cx="200" cy="250" r="130" fill="url(#glowGold)"/>
+
+              <!-- concentric rings -->
+              <g class="ring-outer">
+                <circle cx="200" cy="250" r="180" fill="none" stroke="#c9a96e" stroke-opacity="0.35" stroke-width="0.7" stroke-dasharray="2 6"/>
+              </g>
+              <g class="ring-mid">
+                <circle cx="200" cy="250" r="140" fill="none" stroke="#c9a96e" stroke-opacity="0.55" stroke-width="0.7"/>
+                <circle cx="200" cy="70" r="3" fill="#c9a96e"/>
+              </g>
+              <g class="ring-inner">
+                <circle cx="200" cy="250" r="100" fill="none" stroke="#c9a96e" stroke-opacity="0.4" stroke-width="0.7" stroke-dasharray="1 4"/>
+              </g>
+
+              <!-- breathing core -->
+              <g class="breathe slow" style="transform-origin: 200px 250px;">
+                <circle cx="200" cy="250" r="60" fill="none" stroke="#c9a96e" stroke-width="1"/>
+                <circle cx="200" cy="250" r="40" fill="#c9a96e" fill-opacity="0.08"/>
+              </g>
+
+              <!-- flowing path — figure 8 / infinity — draws + erases -->
+              <path class="draw-path"
+                d="M 80 250 C 80 180, 160 180, 200 250 S 320 320, 320 250 S 240 180, 200 250 S 80 320, 80 250 Z"
+                fill="none" stroke="#c9a96e" stroke-width="1.2" stroke-linecap="round"/>
+
+              <!-- orbiting dots -->
+              <g class="orbit" style="transform-origin: 200px 250px;">
+                <circle class="dot" cx="200" cy="110" r="4" fill="#c9a96e"/>
+              </g>
+              <g class="orbit reverse" style="transform-origin: 200px 250px;">
+                <circle class="dot" cx="60" cy="250" r="3" fill="#c9a96e" fill-opacity="0.6"/>
+                <circle class="dot" cx="340" cy="250" r="2" fill="#c9a96e" fill-opacity="0.4" style="animation-delay: -1.5s;"/>
+              </g>
+
+              <!-- horizon lines, very faint -->
+              <line x1="40" y1="250" x2="360" y2="250" stroke="#c9a96e" stroke-opacity="0.12" stroke-width="0.5" stroke-dasharray="1 3"/>
+              <line x1="200" y1="50" x2="200" y2="450" stroke="#c9a96e" stroke-opacity="0.12" stroke-width="0.5" stroke-dasharray="1 3"/>
+            </svg>
+
+            <div class="anim-caption">
+              <span class="quote">El cuerpo<br>tiene su propio <em>idioma</em>.</span>
+              <span class="meta">NSP · ’26</span>
+            </div>
+          </div>
+
+          <blockquote class="about-quote">
+            <span class="mark">“</span>
+            Acompañamos a cada alumna con atención personalizada. <em>Cada cuerpo es distinto.</em> Cada clase, también.
+            <cite>— Non Solo Pilates, Parque Patricios</cite>
+          </blockquote>
+        </div>
+      </div>
+      <div class="about-text reveal delay-1">
+        <p class="lead">Creemos que el movimiento va mucho más allá del ejercicio.</p>
+        <p>Cada clase está diseñada para conectarte con tu cuerpo, mejorar tu postura y potenciar tu fuerza de manera consciente. Nuestro equipo acompaña a cada alumna con atención personalizada, adaptando los ejercicios a su nivel y objetivos.</p>
+        <p>No importa si recién empezás o si ya practicás hace años — estamos en el corazón de Parque Patricios, con dos sedes para que elijas la que mejor te queda.</p>
+
+        <div class="about-stats" style="margin-top:3rem;">
+          <div class="stat">
+            <div class="stat-number"><span class="count" data-count="3" data-pad="2">00</span></div>
+            <div class="stat-label">Tipos de clase</div>
+          </div>
+          <div class="stat">
+            <div class="stat-number"><span class="count" data-count="45">0</span><em>′</em></div>
+            <div class="stat-label">Por sesión</div>
+          </div>
+          <div class="stat">
+            <div class="stat-number"><span class="count" data-count="2" data-pad="2">00</span></div>
+            <div class="stat-label">Sedes en el barrio</div>
+          </div>
+          <div class="stat">
+            <div class="stat-number"><span class="count" data-count="9.3" data-decimals="1">0.0</span></div>
+            <div class="stat-label">Puntuación Wellhub</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Gallery ── -->
+<section id="galeria">
+  <div class="gallery-hint">
+    <div>
+      <span class="eyebrow">El estudio · en imágenes</span>
+      <h3>Conocé el<br>espacio donde<br><em>todo sucede</em>.</h3>
+      <div class="sede-buttons">
+        <a href="#ubicacion" class="sede-btn">
+          <span class="pin"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 010-5 2.5 2.5 0 010 5z"/></svg></span>
+          <span class="label"><b>Sede Brasil</b><small>Av. Brasil 2730</small></span>
+          <span class="arr">→</span>
+        </a>
+        <a href="#ubicacion" class="sede-btn">
+          <span class="pin"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 010-5 2.5 2.5 0 010 5z"/></svg></span>
+          <span class="label"><b>Sede Garrahan</b><small>Combate de los Pozos 1776</small></span>
+          <span class="arr">→</span>
+        </a>
+      </div>
+    </div>
+    <div class="swipe-cta" id="swipeCta">
+      <span>Deslizá para ver más</span>
+      <span class="arrow-circle"><span class="arrow">→</span></span>
+    </div>
+  </div>
+  <div class="gallery-track" id="galleryTrack">
+    <div class="gallery-item">
+      <img src="https://images.unsplash.com/photo-1518611012118-696072aa579a?w=720&h=900&fit=crop&q=80" alt="Pilates Reformer" loading="lazy">
+      <div class="caption"><span>Sede Brasil · Reformer</span><span class="num">01</span></div>
+    </div>
+    <div class="gallery-item">
+      <img src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=720&h=900&fit=crop&q=80" alt="Clase grupal" loading="lazy">
+      <div class="caption"><span>Clase grupal · Mañana</span><span class="num">02</span></div>
+    </div>
+    <div class="gallery-item">
+      <img src="https://images.unsplash.com/photo-1599901860904-17e6ed7083a0?w=720&h=900&fit=crop&q=80" alt="Pilates Reformer detalle" loading="lazy">
+      <div class="caption"><span>Detalle · Reformer</span><span class="num">03</span></div>
+    </div>
+    <div class="gallery-item">
+      <img src="https://images.unsplash.com/photo-1545389336-cf090694435e?w=720&h=900&fit=crop&q=80" alt="Estiramiento" loading="lazy">
+      <div class="caption"><span>Estiramiento · Dúo</span><span class="num">04</span></div>
+    </div>
+    <div class="gallery-item">
+      <img src="https://images.unsplash.com/photo-1593810450967-f9c42742e326?w=720&h=900&fit=crop&q=80" alt="Sede Garrahan" loading="lazy">
+      <div class="caption"><span>Sede Garrahan</span><span class="num">05</span></div>
+    </div>
+    <div class="gallery-item">
+      <img src="https://images.unsplash.com/photo-1540206395-68808572332f?w=720&h=900&fit=crop&q=80" alt="Clase individual" loading="lazy">
+      <div class="caption"><span>Clase individual</span><span class="num">06</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Services ── -->
+<section id="servicios">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="eyebrow">Nuestras clases</span>
+      <h2 class="section-title">Tres formatos,<br>una misma <em>intención</em>.</h2>
+    </div>
+
+    <div class="services-grid-new">
+      <div class="vcard sage reveal">
+        <div class="vcard-top">
+          <span class="vcard-num">i.</span>
+          <span class="vcard-meta">45 min<br>1 persona</span>
+        </div>
+        <div class="vcard-visual">
+          <svg viewBox="0 0 200 160">
+            <g class="blob">
+              <circle cx="100" cy="80" r="55" fill="#c9a96e" opacity="0.92"/>
+              <circle cx="100" cy="80" r="30" fill="#0d0d0d"/>
+            </g>
+            <circle class="ring" cx="100" cy="80" r="72" fill="none" stroke="#c9a96e" stroke-width="1" stroke-dasharray="452" stroke-dashoffset="452" style="transition: stroke-dashoffset 1.4s cubic-bezier(.22,.61,.36,1);"/>
+          </svg>
+        </div>
+        <h3 class="vcard-name"><em>Individual</em></h3>
+        <p class="vcard-desc">Uno a uno, completamente personalizado. Trabajamos según tus objetivos y tu ritmo. Ideal para empezar.</p>
+        <a href="#reservar" class="vcard-link">Reservar →</a>
+      </div>
+
+      <div class="vcard dark reveal delay-1">
+        <div class="vcard-top">
+          <span class="vcard-num">ii.</span>
+          <span class="vcard-meta">45 min<br>2 personas</span>
+        </div>
+        <div class="vcard-visual">
+          <svg viewBox="0 0 200 160">
+            <g class="blob">
+              <circle cx="80" cy="80" r="42" fill="#0d0d0d"/>
+              <circle cx="125" cy="80" r="42" fill="#f5f0eb" opacity="0.85" style="mix-blend-mode: screen;"/>
+            </g>
+            <circle class="ring" cx="100" cy="80" r="68" fill="none" stroke="#0d0d0d" stroke-width="1" stroke-dasharray="427" stroke-dashoffset="427" style="transition: stroke-dashoffset 1.4s cubic-bezier(.22,.61,.36,1);"/>
+          </svg>
+        </div>
+        <h3 class="vcard-name"><em>Dúo</em></h3>
+        <p class="vcard-desc">Entrenás con una amiga, pareja o familiar. Compartís la experiencia y dividís el costo sin sacrificar calidad.</p>
+        <a href="#reservar" class="vcard-link">Reservar →</a>
+      </div>
+
+      <div class="vcard blush reveal delay-2">
+        <div class="vcard-top">
+          <span class="vcard-num">iii.</span>
+          <span class="vcard-meta">45 min<br>grupo reducido</span>
+        </div>
+        <div class="vcard-visual">
+          <svg viewBox="0 0 200 160">
+            <g class="blob">
+              <circle cx="70" cy="75" r="24" fill="#c9a96e"/>
+              <circle cx="100" cy="95" r="24" fill="#c9a96e" opacity="0.7"/>
+              <circle cx="130" cy="75" r="24" fill="#c9a96e" opacity="0.55"/>
+              <circle cx="100" cy="55" r="24" fill="#c9a96e" opacity="0.4"/>
+            </g>
+            <circle class="ring" cx="100" cy="80" r="72" fill="none" stroke="#c9a96e" stroke-width="1" stroke-dasharray="452" stroke-dashoffset="452" style="transition: stroke-dashoffset 1.4s cubic-bezier(.22,.61,.36,1);"/>
+          </svg>
+        </div>
+        <h3 class="vcard-name"><em>Grupal</em></h3>
+        <p class="vcard-desc">Grupos reducidos para que cada alumna reciba atención real. Para quienes disfrutan la energía del grupo.</p>
+        <a href="#reservar" class="vcard-link">Reservar →</a>
+      </div>
+    </div>
+
+    <div class="services-grid-extra">
+      <div class="vcard extra reveal">
+        <div class="vcard-top">
+          <span class="vcard-num">iv.</span>
+          <span class="vcard-meta">a consultar</span>
+        </div>
+        <div class="vcard-visual">
+          <svg viewBox="0 0 200 100">
+            <g class="blob">
+              <path d="M30 50 Q 70 10, 100 50 T 170 50" fill="none" stroke="#c9a96e" stroke-width="3" stroke-linecap="round"/>
+            </g>
+          </svg>
+        </div>
+        <h3 class="vcard-name" style="font-size: clamp(1.4rem, 2vw, 1.9rem);">Entrenamiento <em>personalizado</em></h3>
+        <p class="vcard-desc">Planificación adaptada a tus metas específicas, combinando Reformer con trabajo funcional.</p>
+        <a href="#reservar" class="vcard-link">Consultar →</a>
+      </div>
+      <div class="vcard extra sage reveal delay-1">
+        <div class="vcard-top">
+          <span class="vcard-num">v.</span>
+          <span class="vcard-meta">a consultar</span>
+        </div>
+        <div class="vcard-visual">
+          <svg viewBox="0 0 200 100">
+            <g class="blob">
+              <circle cx="75" cy="50" r="18" fill="#c9a96e"/>
+              <path d="M75 32 Q 105 32, 125 50 Q 105 68, 75 68" fill="#c9a96e" opacity="0.4"/>
+            </g>
+          </svg>
+        </div>
+        <h3 class="vcard-name" style="font-size: clamp(1.4rem, 2vw, 1.9rem);">Asesoría <em>nutricional</em></h3>
+        <p class="vcard-desc">Acompañamiento nutricional para potenciar los resultados del entrenamiento y tu bienestar integral.</p>
+        <a href="#reservar" class="vcard-link">Consultar →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Pricing ── -->
+<section id="precios">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="eyebrow">Precios</span>
+      <h2 class="section-title">Sin <em>sorpresas</em>.</h2>
+      <p style="margin-top:1.5rem; color: var(--ink-soft); max-width: 480px; font-size: 1.02rem;">Elegí el plan que mejor se adapta a tu ritmo. Escribinos por WhatsApp para conocer los precios actualizados y las promociones vigentes.</p>
+    </div>
+
+    <div class="pricing-grid">
+
+      <div class="price-card reveal">
+        <p class="price-type">Individual</p>
+        <div class="price-amount"><span class="placeholder-price">a consultar</span></div>
+        <p class="price-note">por clase · 45 min</p>
+        <ul class="price-features">
+          <li>Sesión uno a uno</li>
+          <li>Atención personalizada</li>
+          <li>Adaptado a tu nivel</li>
+          <li>Turno fijo o rotativo</li>
+        </ul>
+        <a href="#reservar" class="btn-outline">Reservar</a>
+      </div>
+
+      <div class="price-card featured reveal delay-1">
+        <p class="price-type">Dúo</p>
+        <div class="price-amount"><span class="placeholder-price">a consultar</span></div>
+        <p class="price-note">por persona · 45 min</p>
+        <ul class="price-features">
+          <li>2 personas por clase</li>
+          <li>Costo compartido</li>
+          <li>Misma calidad que individual</li>
+          <li>Traé a tu compañera</li>
+        </ul>
+        <a href="#reservar" class="btn-primary">Reservar</a>
+      </div>
+
+      <div class="price-card reveal delay-2">
+        <p class="price-type">Grupal</p>
+        <div class="price-amount"><span class="placeholder-price">a consultar</span></div>
+        <p class="price-note">por clase · 45 min</p>
+        <ul class="price-features">
+          <li>Grupo reducido</li>
+          <li>Dinámica grupal</li>
+          <li>Horarios fijos semanales</li>
+          <li>La opción más accesible</li>
+        </ul>
+        <a href="#reservar" class="btn-outline">Reservar</a>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ── Testimonios ── -->
+<section id="testimonios">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="eyebrow">Lo que dicen nuestras alumnas · Google</span>
+      <h2 class="section-title"><em>Resultados</em> reales.</h2>
+    </div>
+
+    <div class="reviews-summary reveal">
+      <div class="google-logo">
+        <span class="g-mark">
+          <svg viewBox="0 0 24 24" width="22" height="22"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg>
+        </span>
+        <span>Reseñas de Google</span>
+      </div>
+      <div class="divider"></div>
+      <div class="reviews-rating">
+        <span class="score">4.9</span>
+        <div class="stars-line">
+          <span class="stars">★★★★★</span>
+          <span class="count">87 reseñas verificadas</span>
+        </div>
+      </div>
+      <a href="https://www.google.com/search?q=non+solo+pilates+parque+patricios" target="_blank" rel="noopener" class="reviews-link">Ver todas en Google ↗</a>
+    </div>
+
+    <div class="testimonios-grid">
+      <div class="testimonio reveal">
+        <div class="testimonio-head">
+          <span class="avatar a1">MC</span>
+          <div class="testimonio-author-block">
+            <span class="testimonio-name">Martína Cabrera</span>
+            <span class="testimonio-meta">2 reseñas · Local Guide</span>
+          </div>
+          <svg class="testimonio-g" viewBox="0 0 24 24"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg>
+        </div>
+        <div class="testimonio-stars">★★★★★ <span class="date">hace 2 semanas</span></div>
+        <p class="testimonio-text">Empecé sin saber nada de Pilates y en pocas semanas noté un cambio enorme en mi postura y en cómo me siento. Las profes son hermosas, te explican todo con paciencia. Saliéndo de cada clase me siento renovada.</p>
+      </div>
+
+      <div class="testimonio reveal delay-1">
+        <div class="testimonio-head">
+          <span class="avatar a2">SR</span>
+          <div class="testimonio-author-block">
+            <span class="testimonio-name">Sofía Romero</span>
+            <span class="testimonio-meta">5 reseñas</span>
+          </div>
+          <svg class="testimonio-g" viewBox="0 0 24 24"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg>
+        </div>
+        <div class="testimonio-stars">★★★★★ <span class="date">hace 1 mes</span></div>
+        <p class="testimonio-text">Vine con una amiga al dúo y fue la mejor decisión. Aprendemos juntas, nos motivamos y el precio es muy accesible. El estudio es divino, super limpio y tranquilo. 100% recomendado.</p>
+      </div>
+
+      <div class="testimonio reveal delay-2">
+        <div class="testimonio-head">
+          <span class="avatar a3">JF</span>
+          <div class="testimonio-author-block">
+            <span class="testimonio-name">Julieta Fernández</span>
+            <span class="testimonio-meta">12 reseñas · Local Guide</span>
+          </div>
+          <svg class="testimonio-g" viewBox="0 0 24 24"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg>
+        </div>
+        <div class="testimonio-stars">★★★★★ <span class="date">hace 3 semanas</span></div>
+        <p class="testimonio-text">El grupo es un ambiente hermoso. Se nota la pasión y el profesionalismo en cada clase. Nunca me sentí tan bien con mi cuerpo como desde que empecé acá. Recomiendo arrancar con una individual.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Location ── -->
+<section id="ubicacion">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="eyebrow">Dónde encontrarnos</span>
+      <h2 class="section-title">Dos sedes en<br><em>Parque Patricios</em>.</h2>
+    </div>
+
+    <div class="location-grid">
+      <div class="location-info reveal">
+
+        <div class="location-block">
+          <h3>Sede Principal</h3>
+          <p class="addr">Av. Brasil <em>2730</em></p>
+          <p class="sub">Parque Patricios · CABA</p>
+        </div>
+
+        <div class="location-block">
+          <h3>Sede Garrahan</h3>
+          <p class="addr">Combate de los Pozos <em>1776</em></p>
+          <p class="sub">Parque Patricios · CABA</p>
+        </div>
+
+        <div class="location-block">
+          <h3>Horarios &amp; reservas</h3>
+          <p class="addr">Lunes a sábado</p>
+          <p class="sub">Consultá disponibilidad por WhatsApp · turnos limitados.</p>
+        </div>
+
+        <a href="#reservar" class="btn-primary">Reservar turno</a>
+      </div>
+
+      <div class="reveal delay-1">
+        <div class="map-placeholder">
+          <div class="map-tabs">
+            <button class="map-tab active" data-sede="brasil">Sede Brasil</button>
+            <button class="map-tab" data-sede="garrahan">Sede Garrahan</button>
+          </div>
+          <iframe id="mapFrame"
+            src="https://www.google.com/maps?q=Av.+Brasil+2730,+Parque+Patricios,+Buenos+Aires&output=embed"
+            allowfullscreen
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade"
+            title="Non Solo Pilates - Sedes">
+          </iframe>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── CTA ── -->
+<section id="reservar">
+  <div class="container">
+    <span class="eyebrow">¿Lista para empezar?</span>
+    <h2 class="section-title">Reservá tu<br><em>primera clase</em>.</h2>
+    <p class="lede">Escribinos por WhatsApp y te respondemos enseguida para agendar tu turno. Sin formularios, sin complicaciones.</p>
+
+    <a href="https://wa.me/5491100000000?text=Hola!%20Quiero%20reservar%20una%20clase%20de%20Pilates%20Reformer%20en%20Non%20Solo%20Pilates"
+       class="whatsapp-btn"
+       target="_blank" rel="noopener">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.5 14.4c-.3-.1-1.7-.8-2-.9-.3-.1-.4-.1-.6.1-.2.3-.7.9-.8 1.1-.2.2-.3.2-.5.1-1.5-.7-2.4-1.3-3.4-3-.3-.4.3-.4.7-1.4.1-.2 0-.4 0-.5 0-.1-.6-1.4-.8-2-.2-.5-.4-.4-.6-.4h-.5c-.2 0-.5.1-.7.3-.3.3-1 1-1 2.4s1 2.8 1.2 3 2 3.1 4.9 4.3c1.7.7 2.4.8 3.3.7.5-.1 1.7-.7 1.9-1.4.2-.7.2-1.2.2-1.4-.1-.1-.3-.2-.6-.3zM12 2C6.5 2 2 6.5 2 12c0 1.8.5 3.5 1.3 5L2 22l5.2-1.4c1.4.8 3.1 1.2 4.8 1.2 5.5 0 10-4.5 10-10S17.5 2 12 2z"/></svg>
+      Escribinos por WhatsApp
+    </a>
+
+    <p class="ig-line">
+      También por <a href="https://instagram.com/nonsolopilates" target="_blank" rel="noopener">Instagram · @nonsolopilates</a>
+    </p>
+  </div>
+</section>
+
+<!-- ── Footer ── -->
+<footer>
+  <div class="footer-grid">
+    <div>
+      <p class="footer-logo">Non Solo <em>Pilates</em></p>
+      <p class="footer-tag">Estudio de Pilates Reformer en Parque Patricios, CABA.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Estudio</h4>
+      <ul>
+        <li><a href="#servicios">Clases</a></li>
+        <li><a href="#precios">Precios</a></li>
+        <li><a href="#ubicacion">Ubicación</a></li>
+        <li><a href="#reservar">Reservar</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Contacto</h4>
+      <ul>
+        <li><a href="https://instagram.com/nonsolopilates" target="_blank" rel="noopener">@nonsolopilates</a></li>
+        <li><a href="#reservar">WhatsApp</a></li>
+        <li><a href="#ubicacion">Av. Brasil 2730</a></li>
+        <li><a href="#ubicacion">Combate de los Pozos 1776</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2026 Non Solo Pilates</p>
+    <p>Parque Patricios · Buenos Aires</p>
+  </div>
+</footer>
+
+<!-- ── Floating WA ── -->
+<a href="https://wa.me/5491100000000?text=Hola!%20Quiero%20info%20sobre%20clases%20en%20Non%20Solo%20Pilates"
+   class="float-wa" target="_blank" rel="noopener" aria-label="WhatsApp">
+  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.5 14.4c-.3-.1-1.7-.8-2-.9-.3-.1-.4-.1-.6.1-.2.3-.7.9-.8 1.1-.2.2-.3.2-.5.1-1.5-.7-2.4-1.3-3.4-3-.3-.4.3-.4.7-1.4.1-.2 0-.4 0-.5 0-.1-.6-1.4-.8-2-.2-.5-.4-.4-.6-.4h-.5c-.2 0-.5.1-.7.3-.3.3-1 1-1 2.4s1 2.8 1.2 3 2 3.1 4.9 4.3c1.7.7 2.4.8 3.3.7.5-.1 1.7-.7 1.9-1.4.2-.7.2-1.2.2-1.4-.1-.1-.3-.2-.6-.3zM12 2C6.5 2 2 6.5 2 12c0 1.8.5 3.5 1.3 5L2 22l5.2-1.4c1.4.8 3.1 1.2 4.8 1.2 5.5 0 10-4.5 10-10S17.5 2 12 2z"/></svg>
+</a>
+
+<script>
+  const navbar = document.getElementById('navbar');
+  window.addEventListener('scroll', () => {
+    navbar.classList.toggle('scrolled', window.scrollY > 50);
+  });
+
+  // Reveal on scroll
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.12 });
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+  // Switch word-reveal overflow to visible once their reveal animations finish
+  document.querySelectorAll('.word-reveal .w').forEach(w => {
+    w.addEventListener('animationend', () => {
+      w.parentElement.classList.add('done');
+    });
+  });
+  // Safety fallback in case animationend doesn't fire
+  setTimeout(() => {
+    document.querySelectorAll('.word-reveal').forEach(el => el.classList.add('done'));
+  }, 2400);
+
+  // Scroll progress bar
+  const progress = document.getElementById('scrollProgress');
+  window.addEventListener('scroll', () => {
+    const max = document.documentElement.scrollHeight - window.innerHeight;
+    const pct = (window.scrollY / max) * 100;
+    progress.style.width = pct + '%';
+  });
+
+  // Cursor halo follow
+  const halo = document.getElementById('cursorHalo');
+  let haloX = 0, haloY = 0, tx = 0, ty = 0;
+  document.addEventListener('mousemove', (e) => {
+    tx = e.clientX; ty = e.clientY;
+  });
+  function animateHalo() {
+    haloX += (tx - haloX) * 0.12;
+    haloY += (ty - haloY) * 0.12;
+    halo.style.transform = `translate(${haloX}px, ${haloY}px) translate(-50%, -50%)`;
+    requestAnimationFrame(animateHalo);
+  }
+  animateHalo();
+
+  // Mouse parallax on hero shapes
+  const hero = document.getElementById('hero');
+  const shapes = document.querySelectorAll('.hero-shape');
+  if (hero) {
+    hero.addEventListener('mousemove', (e) => {
+      const r = hero.getBoundingClientRect();
+      const cx = (e.clientX - r.left) - r.width/2;
+      const cy = (e.clientY - r.top) - r.height/2;
+      shapes.forEach(s => {
+        const d = parseFloat(s.dataset.depth || 0.04);
+        s.style.translate = `${cx * d}px ${cy * d}px`;
+      });
+    });
+  }
+
+  // Magnetic buttons
+  document.querySelectorAll('.magnetic').forEach(btn => {
+    btn.addEventListener('mousemove', (e) => {
+      const r = btn.getBoundingClientRect();
+      const x = e.clientX - r.left - r.width/2;
+      const y = e.clientY - r.top - r.height/2;
+      btn.style.transform = `translate(${x*0.18}px, ${y*0.25}px)`;
+    });
+    btn.addEventListener('mouseleave', () => {
+      btn.style.transform = '';
+    });
+  });
+
+  // Count-up numbers when in view
+  const counters = document.querySelectorAll('.count');
+  const cObs = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const el = entry.target;
+        const target = parseFloat(el.dataset.count);
+        const decimals = parseInt(el.dataset.decimals || 0);
+        const pad = parseInt(el.dataset.pad || 0);
+        const duration = 1400;
+        const start = performance.now();
+        function step(now) {
+          const t = Math.min((now - start) / duration, 1);
+          const eased = 1 - Math.pow(1 - t, 3);
+          const v = target * eased;
+          let out = decimals ? v.toFixed(decimals) : Math.round(v).toString();
+          if (pad && !decimals) out = out.padStart(pad, '0');
+          el.textContent = out;
+          if (t < 1) requestAnimationFrame(step);
+        }
+        requestAnimationFrame(step);
+        cObs.unobserve(el);
+      }
+    });
+  }, { threshold: 0.5 });
+  counters.forEach(c => cObs.observe(c));
+
+  // Tilt effect on price cards
+  document.querySelectorAll('.price-card').forEach(card => {
+    card.addEventListener('mousemove', (e) => {
+      const r = card.getBoundingClientRect();
+      const px = (e.clientX - r.left) / r.width - 0.5;
+      const py = (e.clientY - r.top) / r.height - 0.5;
+      card.style.transform = `translateY(-4px) rotateX(${-py * 4}deg) rotateY(${px * 4}deg)`;
+    });
+    card.addEventListener('mouseleave', () => {
+      card.style.transform = '';
+    });
+  });
+  document.querySelectorAll('.pricing-grid').forEach(g => {
+    g.style.perspective = '1200px';
+  });
+
+  // Gallery drag-scroll + swipe-cta nudge
+  const galleryTrack = document.getElementById('galleryTrack');
+  if (galleryTrack) {
+    let isDown = false, startX, scrollLeft;
+    galleryTrack.addEventListener('mousedown', (e) => {
+      isDown = true;
+      galleryTrack.style.cursor = 'grabbing';
+      startX = e.pageX - galleryTrack.offsetLeft;
+      scrollLeft = galleryTrack.scrollLeft;
+    });
+    galleryTrack.addEventListener('mouseleave', () => { isDown = false; galleryTrack.style.cursor = 'grab'; });
+    galleryTrack.addEventListener('mouseup', () => { isDown = false; galleryTrack.style.cursor = 'grab'; });
+    galleryTrack.addEventListener('mousemove', (e) => {
+      if (!isDown) return;
+      e.preventDefault();
+      const x = e.pageX - galleryTrack.offsetLeft;
+      const walk = (x - startX) * 1.5;
+      galleryTrack.scrollLeft = scrollLeft - walk;
+    });
+
+    const swipeCta = document.getElementById('swipeCta');
+    if (swipeCta) {
+      swipeCta.addEventListener('click', () => {
+        galleryTrack.scrollBy({ left: 380, behavior: 'smooth' });
+      });
+    }
+  }
+
+  // Map sede switcher
+  const mapTabs = document.querySelectorAll('.map-tab');
+  const mapFrame = document.getElementById('mapFrame');
+  const mapUrls = {
+    brasil:   'https://www.google.com/maps?q=Av.+Brasil+2730,+Parque+Patricios,+Buenos+Aires&output=embed',
+    garrahan: 'https://www.google.com/maps?q=Combate+de+los+Pozos+1776,+Parque+Patricios,+Buenos+Aires&output=embed'
+  };
+  mapTabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+      mapTabs.forEach(t => t.classList.remove('active'));
+      tab.classList.add('active');
+      if (mapFrame) mapFrame.src = mapUrls[tab.dataset.sede];
+    });
+  });
+
+  // When user clicks a sede button in gallery, pre-select that sede in the map
+  document.querySelectorAll('.sede-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const isGarrahan = btn.textContent.toLowerCase().includes('garrahan');
+      const target = isGarrahan ? 'garrahan' : 'brasil';
+      mapTabs.forEach(t => {
+        t.classList.toggle('active', t.dataset.sede === target);
+      });
+      if (mapFrame) mapFrame.src = mapUrls[target];
+    });
+  });
+</script>
+
+</body>
+</html>
